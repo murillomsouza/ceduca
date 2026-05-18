@@ -2,10 +2,14 @@ package com.ceduca.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
+
+import com.ceduca.dto.AlunoRequestDTO;
+import com.ceduca.dto.AlunoResponseDTO;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.ceduca.model.Aluno;
 import com.ceduca.model.Curriculo;
 import com.ceduca.service.SecretariaService;
 
@@ -19,32 +23,43 @@ public class SecretariaController {
     private final SecretariaService secretariaService;
 
     @PostMapping("/alunos")
-    public ResponseEntity<Aluno> criarAluno(@RequestBody Aluno aluno) {
-        return ResponseEntity.ok(secretariaService.criarAluno(aluno));
+    public ResponseEntity<AlunoResponseDTO> criarAluno(
+            @Valid @RequestBody AlunoRequestDTO alunoDTO) {
+
+        return ResponseEntity.ok(
+                secretariaService.criarAluno(alunoDTO)
+        );
     }
 
     @GetMapping("/alunos")
-    public ResponseEntity<List<Aluno>> buscarAlunos() {
-        return ResponseEntity.ok(secretariaService.buscarAlunos());
+    public ResponseEntity<List<AlunoResponseDTO>> buscarAlunos() {
+
+        return ResponseEntity.ok(
+                secretariaService.buscarAlunos()
+        );
     }
 
     @GetMapping("/alunos/{id}")
-    public ResponseEntity<Aluno> buscarAlunoId(@PathVariable String id) {
-        return ResponseEntity.ok(secretariaService.buscarAlunoId(id));
+    public ResponseEntity<AlunoResponseDTO> buscarAlunoId(
+            @PathVariable String id) {
+
+        return ResponseEntity.ok(
+                secretariaService.buscarAlunoId(id)
+        );
     }
 
     @PutMapping("/alunos/{id}")
-    public ResponseEntity<Aluno> editarAluno(
+    public ResponseEntity<AlunoResponseDTO> editarAluno(
             @PathVariable String id,
-            @RequestBody Aluno alunoAtualizado) {
+            @Valid @RequestBody AlunoRequestDTO alunoDTO) {
 
         return ResponseEntity.ok(
-                secretariaService.editarAluno(id, alunoAtualizado)
+                secretariaService.editarAluno(id, alunoDTO)
         );
     }
 
     @GetMapping("/alunos/tags")
-    public ResponseEntity<List<Aluno>> buscarPorTag(
+    public ResponseEntity<List<AlunoResponseDTO>> buscarPorTag(
             @RequestParam String tag) {
 
         return ResponseEntity.ok(

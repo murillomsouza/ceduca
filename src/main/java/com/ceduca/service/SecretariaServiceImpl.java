@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ceduca.dto.AlunoRequestDTO;
+import com.ceduca.dto.AlunoResponseDTO;
 import com.ceduca.model.Aluno;
 import com.ceduca.model.Curriculo;
 import com.ceduca.repository.AlunoRepository;
@@ -17,47 +19,69 @@ public class SecretariaServiceImpl implements SecretariaService {
     private final AlunoRepository alunoRepository;
 
     @Override
-    public Aluno criarAluno(Aluno aluno) {
+    public AlunoResponseDTO criarAluno(AlunoRequestDTO alunoDTO) {
 
-        if (alunoRepository.existsByEmail(aluno.getEmail())) {
+        if (alunoRepository.existsByEmail(alunoDTO.getEmail())) {
             throw new RuntimeException("Email já cadastrado.");
         }
 
-        return alunoRepository.save(aluno);
+        Aluno aluno = new Aluno();
+
+        aluno.setNome(alunoDTO.getNome());
+        aluno.setEmail(alunoDTO.getEmail());
+        aluno.setTelefone(alunoDTO.getTelefone());
+        aluno.setTags(alunoDTO.getTags());
+
+        Aluno alunoSalvo = alunoRepository.save(aluno);
+
+        return toResponseDTO(alunoSalvo);
     }
 
     @Override
-    public List<Aluno> buscarAlunos() {
-        return alunoRepository.findAll();
+    public List<AlunoResponseDTO> buscarAlunos() {
+
+        return alunoRepository.findAll()
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
 
     @Override
-    public Aluno buscarAlunoId(String id) {
-
-        return alunoRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Aluno não encontrado."));
-    }
-
-    @Override
-    public Aluno editarAluno(String id, Aluno alunoAtualizado) {
+    public AlunoResponseDTO buscarAlunoId(String id) {
 
         Aluno aluno = alunoRepository.findById(id)
                 .orElseThrow(() ->
                         new RuntimeException("Aluno não encontrado."));
 
-        aluno.setNome(alunoAtualizado.getNome());
-        aluno.setEmail(alunoAtualizado.getEmail());
-        aluno.setTelefone(alunoAtualizado.getTelefone());
-        aluno.setTags(alunoAtualizado.getTags());
-
-        return alunoRepository.save(aluno);
+        return toResponseDTO(aluno);
     }
 
     @Override
-    public List<Aluno> buscarAlunosPorTag(String tag) {
+    public AlunoResponseDTO editarAluno(
+            String id,
+            AlunoRequestDTO alunoDTO) {
 
-        return alunoRepository.findByTagsContaining(tag);
+        Aluno aluno = alunoRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Aluno não encontrado."));
+
+        aluno.setNome(alunoDTO.getNome());
+        aluno.setEmail(alunoDTO.getEmail());
+        aluno.setTelefone(alunoDTO.getTelefone());
+        aluno.setTags(alunoDTO.getTags());
+
+        Aluno alunoAtualizado = alunoRepository.save(aluno);
+
+        return toResponseDTO(alunoAtualizado);
+    }
+
+    @Override
+    public List<AlunoResponseDTO> buscarAlunosPorTag(String tag) {
+
+        return alunoRepository.findByTagsContaining(tag)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
 
     @Override
@@ -83,5 +107,18 @@ public class SecretariaServiceImpl implements SecretariaService {
 
         // Implementação futura do PDF
         return new byte[0];
+    }
+
+    private AlunoResponseDTO toResponseDTO(Aluno aluno) {
+
+        AlunoResponseDTO dto = new AlunoResponseDTO();
+
+        dto.setId(aluno.getId());
+        dto.setNome(aluno.getNome());
+        dto.setEmail(aluno.getEmail());
+        dto.setTelefone(aluno.getTelefone());
+        dto.setTags(aluno.getTags());
+
+        return dto;
     }
 }

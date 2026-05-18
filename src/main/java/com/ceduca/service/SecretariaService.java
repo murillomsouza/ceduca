@@ -2,20 +2,21 @@ package com.ceduca.service;
 
 import java.util.List;
 
-import com.ceduca.model.Aluno;
+import com.ceduca.dto.AlunoRequestDTO;
+import com.ceduca.dto.AlunoResponseDTO;
 import com.ceduca.model.Curriculo;
 
 public interface SecretariaService {
 
-    Aluno criarAluno(Aluno aluno);
+    AlunoResponseDTO criarAluno(AlunoRequestDTO alunoDTO);
 
-    List<Aluno> buscarAlunos();
+    List<AlunoResponseDTO> buscarAlunos();
 
-    Aluno buscarAlunoId(String id);
+    AlunoResponseDTO buscarAlunoId(String id);
 
-    Aluno editarAluno(String id, Aluno alunoAtualizado);
+    AlunoResponseDTO editarAluno(String id, AlunoRequestDTO alunoDTO);
 
-    List<Aluno> buscarAlunosPorTag(String tag);
+    List<AlunoResponseDTO> buscarAlunosPorTag(String tag);
 
     Curriculo visualizarCurriculo(String alunoId);
 

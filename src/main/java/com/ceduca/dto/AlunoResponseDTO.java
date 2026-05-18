@@ -1,4 +1,19 @@
 package com.ceduca.dto;
 
-public class AlunoRequestDTO {
+import java.util.List;
+
+import lombok.Data;
+
+@Data
+public class AlunoResponseDTO {
+
+    private String id;
+
+    private String nome;
+
+    private String email;
+
+    private String telefone;
+
+    private List<String> tags;
 }
