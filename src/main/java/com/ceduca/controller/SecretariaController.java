@@ -15,73 +15,110 @@ import com.ceduca.service.SecretariaService;
 
 import lombok.RequiredArgsConstructor;
 
+import com.ceduca.dto.SecretariaRequestDTO;
+import com.ceduca.dto.SecretariaResponseDTO;
+
 @RestController
-@RequestMapping("/secretaria")
+@RequestMapping("/secretarias")
 @RequiredArgsConstructor
 public class SecretariaController {
 
-    private final SecretariaService secretariaService;
+        private final SecretariaService secretariaService;
 
-    @PostMapping("/alunos")
-    public ResponseEntity<AlunoResponseDTO> criarAluno(
-            @Valid @RequestBody AlunoRequestDTO alunoDTO) {
+        @PostMapping
+        public ResponseEntity<SecretariaResponseDTO> criarSecretaria(
+                        @Valid @RequestBody SecretariaRequestDTO dto) {
 
-        return ResponseEntity.ok(
-                secretariaService.criarAluno(alunoDTO)
-        );
-    }
+                return ResponseEntity.ok(
+                                secretariaService.criarSecretaria(dto));
+        }
 
-    @GetMapping("/alunos")
-    public ResponseEntity<List<AlunoResponseDTO>> buscarAlunos() {
+        @GetMapping
+        public ResponseEntity<List<SecretariaResponseDTO>> buscarSecretarias() {
 
-        return ResponseEntity.ok(
-                secretariaService.buscarAlunos()
-        );
-    }
+                return ResponseEntity.ok(
+                                secretariaService.buscarSecretarias());
+        }
 
-    @GetMapping("/alunos/{id}")
-    public ResponseEntity<AlunoResponseDTO> buscarAlunoId(
-            @PathVariable String id) {
+        @GetMapping("/{id}")
+        public ResponseEntity<SecretariaResponseDTO> buscarSecretariaId(
+                        @PathVariable String id) {
 
-        return ResponseEntity.ok(
-                secretariaService.buscarAlunoId(id)
-        );
-    }
+                return ResponseEntity.ok(
+                                secretariaService.buscarSecretariaId(id));
+        }
 
-    @PutMapping("/alunos/{id}")
-    public ResponseEntity<AlunoResponseDTO> editarAluno(
-            @PathVariable String id,
-            @Valid @RequestBody AlunoRequestDTO alunoDTO) {
+        @PutMapping("/{id}")
+        public ResponseEntity<SecretariaResponseDTO> editarSecretaria(
+                        @PathVariable String id,
+                        @Valid @RequestBody SecretariaRequestDTO dto) {
 
-        return ResponseEntity.ok(
-                secretariaService.editarAluno(id, alunoDTO)
-        );
-    }
+                return ResponseEntity.ok(
+                                secretariaService.editarSecretaria(id, dto));
+        }
 
-    @GetMapping("/alunos/tags")
-    public ResponseEntity<List<AlunoResponseDTO>> buscarPorTag(
-            @RequestParam String tag) {
+        @DeleteMapping("/{id}")
+        public ResponseEntity<Void> deletarSecretaria(
+                        @PathVariable String id) {
 
-        return ResponseEntity.ok(
-                secretariaService.buscarAlunosPorTag(tag)
-        );
-    }
+                secretariaService.deletarSecretaria(id);
 
-    @GetMapping("/alunos/{alunoId}/curriculo")
-    public ResponseEntity<Curriculo> visualizarCurriculo(
-            @PathVariable String alunoId) {
+                return ResponseEntity.noContent().build();
+        }
 
-        return ResponseEntity.ok(
-                secretariaService.visualizarCurriculo(alunoId)
-        );
-    }
+        @PostMapping("/alunos")
+        public ResponseEntity<AlunoResponseDTO> criarAluno(
+                        @Valid @RequestBody AlunoRequestDTO alunoDTO) {
 
-    @GetMapping("/alunos/{alunoId}/curriculo/download")
-    public ResponseEntity<byte[]> baixarCurriculo(
-            @PathVariable String alunoId) {
+                return ResponseEntity.ok(
+                                secretariaService.criarAluno(alunoDTO));
+        }
 
-        return ResponseEntity.ok(
-                secretariaService.baixarCurriculo(alunoId)
-        );
-    }
+        @GetMapping("/alunos")
+        public ResponseEntity<List<AlunoResponseDTO>> buscarAlunos() {
+
+                return ResponseEntity.ok(
+                                secretariaService.buscarAlunos());
+        }
+
+        @GetMapping("/alunos/{id}")
+        public ResponseEntity<AlunoResponseDTO> buscarAlunoId(
+                        @PathVariable String id) {
+
+                return ResponseEntity.ok(
+                                secretariaService.buscarAlunoId(id));
+        }
+
+        @PutMapping("/alunos/{id}")
+        public ResponseEntity<AlunoResponseDTO> editarAluno(
+                        @PathVariable String id,
+                        @Valid @RequestBody AlunoRequestDTO alunoDTO) {
+
+                return ResponseEntity.ok(
+                                secretariaService.editarAluno(id, alunoDTO));
+        }
+
+        @GetMapping("/alunos/tags")
+        public ResponseEntity<List<AlunoResponseDTO>> buscarPorTag(
+                        @RequestParam String tag) {
+
+                return ResponseEntity.ok(
+                                secretariaService.buscarAlunosPorTag(tag));
+        }
+
+        @GetMapping("/alunos/{alunoId}/curriculo")
+        public ResponseEntity<Curriculo> visualizarCurriculo(
+                        @PathVariable String alunoId) {
+
+                return ResponseEntity.ok(
+                                secretariaService.visualizarCurriculo(alunoId));
+        }
+
+        @GetMapping("/alunos/{alunoId}/curriculo/download")
+        public ResponseEntity<byte[]> baixarCurriculo(
+                        @PathVariable String alunoId) {
+
+                return ResponseEntity.ok(
+                                secretariaService.baixarCurriculo(alunoId));
+        }
 }

@@ -37,13 +37,26 @@ src/main/java/com/ceduca
 
 ## Secretaria
 
+### Gerenciamento de Secretaria
+
+- Criar usuario secretaria
+- Buscar todos os usuarios secretaria
+- Buscar usuarios secretaria por ID
+- Editar usuarios secretaria
+- Deletar usuarios secretaria
+
+### Gerenciamento de Alunos
+
 - Criar aluno
 - Buscar todos os alunos
 - Buscar aluno por ID
 - Editar aluno
 - Buscar alunos por tags
+
+### Currículos
+
 - Visualizar currículo
-- Baixar currículo (estrutura preparada)
+- Baixar currículo (estrutura preparada)  
 
 ---
 
@@ -64,6 +77,7 @@ id
 nome
 email
 senha
+tipoUsuario
 ```
 
 ---
@@ -198,10 +212,48 @@ mvnw spring-boot:run
 
 # Secretaria
 
+## Criar secretaria
+
+```http
+POST /secretarias
+```
+
+---
+
+## Buscar secretarias
+
+```http
+GET /secretarias
+```
+
+---
+
+## Buscar secretaria por ID
+
+```http
+GET /secretarias/{id}
+```
+
+---
+
+## Editar secretaria
+
+```http
+PUT /secretarias/{id}
+```
+
+---
+
+## Deletar secretaria
+
+```http
+DELETE /secretarias/{id}
+```
+
 ## Criar aluno
 
 ```http
-POST /secretaria/alunos
+POST /secretarias/alunos
 ```
 
 ---
@@ -209,7 +261,7 @@ POST /secretaria/alunos
 ## Buscar alunos
 
 ```http
-GET /secretaria/alunos
+GET /secretarias/alunos
 ```
 
 ---
@@ -217,7 +269,7 @@ GET /secretaria/alunos
 ## Buscar aluno por ID
 
 ```http
-GET /secretaria/alunos/{id}
+GET /secretarias/alunos/{id}
 ```
 
 ---
@@ -225,7 +277,7 @@ GET /secretaria/alunos/{id}
 ## Editar aluno
 
 ```http
-PUT /secretaria/alunos/{id}
+PUT /secretarias/alunos/{id}
 ```
 
 ---
@@ -233,7 +285,7 @@ PUT /secretaria/alunos/{id}
 ## Buscar alunos por tag
 
 ```http
-GET /secretaria/alunos/tags?tag=Java
+GET /secretarias/alunos/tags?tag=Java
 ```
 
 ---
@@ -241,7 +293,7 @@ GET /secretaria/alunos/tags?tag=Java
 ## Visualizar currículo
 
 ```http
-GET /secretaria/alunos/{id}/curriculo
+GET /secretarias/alunos/{id}/curriculo
 ```
 
 ---
