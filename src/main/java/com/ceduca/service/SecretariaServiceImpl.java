@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ceduca.service.pdf.CurriculoPdfService;
 import com.ceduca.dto.AlunoRequestDTO;
 import com.ceduca.dto.AlunoResponseDTO;
 import com.ceduca.dto.SecretariaRequestDTO;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecretariaServiceImpl implements SecretariaService {
 
+    private final CurriculoPdfService curriculoPdfService;
     private final AlunoRepository alunoRepository;
     private final SecretariaRepository secretariaRepository;
 
@@ -180,7 +182,7 @@ public class SecretariaServiceImpl implements SecretariaService {
             throw new RuntimeException("Currículo não encontrado.");
         }
 
-        return new byte[0];
+        return curriculoPdfService.gerarPdf(aluno);
     }
 
     private AlunoResponseDTO toResponseDTO(Aluno aluno) {
