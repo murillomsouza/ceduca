@@ -9,6 +9,8 @@ import com.ceduca.dto.AlunoResponseDTO;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 import com.ceduca.model.Curriculo;
 import com.ceduca.service.SecretariaService;
@@ -116,9 +118,16 @@ public class SecretariaController {
 
         @GetMapping("/alunos/{alunoId}/curriculo/download")
         public ResponseEntity<byte[]> baixarCurriculo(
-                        @PathVariable String alunoId) {
+                @PathVariable String alunoId) {
 
-                return ResponseEntity.ok(
-                                secretariaService.baixarCurriculo(alunoId));
+                byte[] pdf = secretariaService.baixarCurriculo(alunoId);
+
+                return ResponseEntity.ok()
+                        .header(
+                                HttpHeaders.CONTENT_DISPOSITION,
+                                "attachment; filename=curriculo-" + alunoId + ".pdf"
+                        )
+                        .contentType(MediaType.APPLICATION_PDF)
+                        .body(pdf);
         }
 }

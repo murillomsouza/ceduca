@@ -1,6 +1,6 @@
 # C'Educa
 
-Sistema backend desenvolvido com Java + Spring Boot + MongoDB para gerenciamento de alunos e currículos acadêmicos.
+Sistema backend REST desenvolvido com Java, Spring Boot e MongoDB para gerenciamento acadêmico de alunos e currículos.
 
 O projeto permite que a secretaria cadastre alunos e que os próprios alunos preencham seus currículos através de formulários, armazenando todas as informações de forma estruturada no MongoDB.
 
@@ -15,6 +15,8 @@ O projeto permite que a secretaria cadastre alunos e que os próprios alunos pre
 - Lombok
 - Maven
 - MongoDB
+- OpenPDF
+- Jakarta Validation
 
 ---
 
@@ -28,12 +30,23 @@ src/main/java/com/ceduca
 ├── model
 ├── repository
 ├── service
+│   └── pdf
 └── CeducaApplication
 ```
 
 ---
 
-# Funcionalidades
+## Funcionalidades
+
+- Cadastro de secretarias
+- Cadastro de alunos
+- Busca de alunos por tags
+- Cadastro de currículo
+- Geração dinâmica de currículo em PDF
+- Download de currículo em PDF
+- Integração com MongoDB
+- API REST com Spring Boot
+- Geração dinâmica de PDF em tempo real
 
 ## Secretaria
 
@@ -172,7 +185,13 @@ O projeto utiliza as seguintes dependências Spring Boot:
     <artifactId>spring-boot-starter-test</artifactId>
     <scope>test</scope>
 </dependency>
-```
+<!-- OpenPDF -->
+<dependency>
+<groupId>com.github.librepdf</groupId>
+<artifactId>openpdf</artifactId>
+<version>1.3.39</version>
+</dependency>
+``` 
 
 # Como Executar
 
@@ -321,6 +340,11 @@ PUT /aluno/{id}/curriculo
 ```http
 GET /aluno/{id}/curriculo
 ```
+## Baixar currículo PDF
+
+```http
+GET /secretarias/alunos/{id}/curriculo/download
+```
 
 ---
 
@@ -365,7 +389,7 @@ GET /aluno/{id}/curriculo
 
 - JWT Authentication
 - Spring Security
-- Geração de PDF
+- Melhorar layout do PDF
 - Upload de foto
 - Upload de currículo PDF
 - Frontend Web
