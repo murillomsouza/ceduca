@@ -187,9 +187,9 @@ O projeto utiliza as seguintes dependências Spring Boot:
 </dependency>
 <!-- OpenPDF -->
 <dependency>
-<groupId>com.github.librepdf</groupId>
-<artifactId>openpdf</artifactId>
-<version>1.3.39</version>
+    <groupId>com.github.librepdf</groupId>
+    <artifactId>openpdf</artifactId>
+    <version>1.3.39</version>
 </dependency>
 ``` 
 
@@ -198,7 +198,7 @@ O projeto utiliza as seguintes dependências Spring Boot:
 ## Clonar repositório
 
 ```bash
-git clone https://github.com/SEU-USUARIO/ceduca.git
+git clone https://github.com/murillomsouza/ceduca.git
 ```
 
 ---
