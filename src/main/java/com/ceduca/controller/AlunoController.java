@@ -1,5 +1,7 @@
 package com.ceduca.controller;
 
+import com.ceduca.dto.AlunoPatchDTO;
+import com.ceduca.dto.AlunoResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +43,16 @@ public class AlunoController {
 
         return ResponseEntity.ok(
                 alunoService.atualizarCurriculo(id, curriculo)
+        );
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<AlunoResponseDTO> editarParcialmente(
+            @PathVariable String id,
+            @RequestBody AlunoPatchDTO dto) {
+
+        return ResponseEntity.ok(
+                alunoService.editarParcialmente(id, dto)
         );
     }
 }

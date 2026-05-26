@@ -1,5 +1,7 @@
 package com.ceduca.service;
 
+import com.ceduca.dto.AlunoPatchDTO;
+import com.ceduca.dto.AlunoResponseDTO;
 import com.ceduca.model.Curriculo;
 
 public interface AlunoService {
@@ -9,4 +11,9 @@ public interface AlunoService {
     Curriculo visualizarCurriculo(String alunoId);
 
     Curriculo atualizarCurriculo(String alunoId, Curriculo curriculo);
+
+    AlunoResponseDTO editarParcialmente(
+            String id,
+            AlunoPatchDTO dto
+    );
 }
