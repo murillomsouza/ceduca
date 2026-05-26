@@ -11,6 +11,8 @@ public class AlunoResponseDTO {
 
     private String nome;
 
+    private String nomeSocial;
+
     private String email;
 
     private String telefone;
