@@ -1,5 +1,6 @@
 package com.ceduca.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Data;
@@ -7,11 +8,19 @@ import lombok.Data;
 @Data
 public class Curriculo {
 
-    private String resumo;
+    private String nomeSocial;
+
+    private LocalDate dataNascimento;
 
     private String linkedin;
 
-    private String github;
+    private String endereco;
+
+    private String cidade;
+
+    private String resumo;
+
+    private Boolean possuiExperiencia;
 
     private List<Formacao> formacoes;
 

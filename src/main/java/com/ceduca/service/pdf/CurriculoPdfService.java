@@ -1,11 +1,13 @@
 package com.ceduca.service.pdf;
 
 import java.io.ByteArrayOutputStream;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.stereotype.Service;
 
 import com.ceduca.model.Aluno;
 import com.ceduca.model.Curriculo;
+
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
@@ -35,20 +37,39 @@ public class CurriculoPdfService {
              */
 
             Font titulo =
-                    FontFactory.getFont(FontFactory.HELVETICA_BOLD, 20);
+                    FontFactory.getFont(
+                            FontFactory.HELVETICA_BOLD,
+                            20
+                    );
 
             Font subtitulo =
-                    FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14);
+                    FontFactory.getFont(
+                            FontFactory.HELVETICA_BOLD,
+                            14
+                    );
 
             Font texto =
-                    FontFactory.getFont(FontFactory.HELVETICA, 12);
+                    FontFactory.getFont(
+                            FontFactory.HELVETICA,
+                            12
+                    );
+
+            /*
+             * NOME EXIBIÇÃO
+             */
+
+            String nomeExibicao =
+                    curriculo.getNomeSocial() != null
+                            && !curriculo.getNomeSocial().isBlank()
+                            ? curriculo.getNomeSocial()
+                            : aluno.getNome();
 
             /*
              * CABEÇALHO
              */
 
             Paragraph nome =
-                    new Paragraph(aluno.getNome(), titulo);
+                    new Paragraph(nomeExibicao, titulo);
 
             nome.setSpacingAfter(10);
 
@@ -64,48 +85,96 @@ public class CurriculoPdfService {
                     texto
             ));
 
-            document.add(new Paragraph(
-                    curriculo.getLinkedin(),
-                    texto
-            ));
+            /*
+             * DATA NASCIMENTO
+             */
 
-            document.add(new Paragraph(
-                    curriculo.getGithub(),
-                    texto
-            ));
+            if (curriculo.getDataNascimento() != null) {
 
-            document.add(new Paragraph(" "));
+                document.add(new Paragraph(
+                        "Data de nascimento: "
+                                + curriculo.getDataNascimento()
+                                .format(
+                                        DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                                ),
+                        texto
+                ));
+            }
+
+            /*
+             * ENDEREÇO
+             */
+
+            if (curriculo.getEndereco() != null
+                    && !curriculo.getEndereco().isBlank()) {
+
+                document.add(new Paragraph(
+                        curriculo.getEndereco(),
+                        texto
+                ));
+            }
+
+            /*
+             * CIDADE
+             */
+
+            if (curriculo.getCidade() != null
+                    && !curriculo.getCidade().isBlank()) {
+
+                document.add(new Paragraph(
+                        curriculo.getCidade(),
+                        texto
+                ));
+            }
+
+            /*
+             * LINKEDIN
+             */
+
+            if (curriculo.getLinkedin() != null
+                    && !curriculo.getLinkedin().isBlank()) {
+
+                document.add(new Paragraph(
+                        curriculo.getLinkedin(),
+                        texto
+                ));
+            }
 
             /*
              * RESUMO
              */
 
-            Paragraph resumoTitulo =
-                    new Paragraph("RESUMO", subtitulo);
+            if (curriculo.getResumo() != null
+                    && !curriculo.getResumo().isBlank()) {
 
-            resumoTitulo.setSpacingAfter(5);
+                Paragraph resumoTitulo =
+                        new Paragraph("RESUMO", subtitulo);
 
-            document.add(resumoTitulo);
+                resumoTitulo.setSpacingAfter(5);
 
-            document.add(new Paragraph(
-                    curriculo.getResumo(),
-                    texto
-            ));
+                document.add(resumoTitulo);
 
-            document.add(new Paragraph(" "));
+                document.add(new Paragraph(
+                        curriculo.getResumo(),
+                        texto
+                ));
+
+                document.add(new Paragraph(" "));
+            }
 
             /*
              * FORMAÇÕES
              */
 
-            Paragraph formacaoTitulo =
-                    new Paragraph("FORMAÇÃO", subtitulo);
+            if (curriculo.getFormacoes() != null
+                    && !curriculo.getFormacoes().isEmpty()) {
 
-            formacaoTitulo.setSpacingAfter(5);
+                Paragraph formacaoTitulo =
+                        new Paragraph("FORMAÇÃO", subtitulo);
 
-            document.add(formacaoTitulo);
+                formacaoTitulo.setSpacingAfter(5);
 
-            if (curriculo.getFormacoes() != null) {
+                document.add(formacaoTitulo);
 
                 curriculo.getFormacoes().forEach(formacao -> {
 
@@ -128,6 +197,7 @@ public class CurriculoPdfService {
                         document.add(new Paragraph(" "));
 
                     } catch (Exception e) {
+
                         throw new RuntimeException(e);
                     }
                 });
@@ -137,69 +207,81 @@ public class CurriculoPdfService {
              * QUALIFICAÇÕES
              */
 
-            Paragraph qualificacaoTitulo =
-                    new Paragraph("QUALIFICAÇÕES", subtitulo);
+            if (curriculo.getQualificacoes() != null
+                    && !curriculo.getQualificacoes().isEmpty()) {
 
-            qualificacaoTitulo.setSpacingAfter(5);
+                Paragraph qualificacaoTitulo =
+                        new Paragraph("QUALIFICAÇÕES", subtitulo);
 
-            document.add(qualificacaoTitulo);
+                qualificacaoTitulo.setSpacingAfter(5);
 
-            curriculo.getQualificacoes().forEach(qualificacao -> {
+                document.add(qualificacaoTitulo);
 
-                try {
+                curriculo.getQualificacoes().forEach(qualificacao -> {
 
-                    document.add(new Paragraph(
-                            "• " + qualificacao.getNome(),
-                            texto
-                    ));
+                    try {
 
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            });
+                        document.add(new Paragraph(
+                                "• " + qualificacao.getNome(),
+                                texto
+                        ));
 
-            document.add(new Paragraph(" "));
+                    } catch (Exception e) {
+
+                        throw new RuntimeException(e);
+                    }
+                });
+
+                document.add(new Paragraph(" "));
+            }
 
             /*
              * EXPERIÊNCIAS
              */
 
-            Paragraph experienciaTitulo =
-                    new Paragraph("EXPERIÊNCIAS", subtitulo);
+            if (Boolean.TRUE.equals(
+                    curriculo.getPossuiExperiencia())
+                    && curriculo.getExperiencias() != null
+                    && !curriculo.getExperiencias().isEmpty()) {
 
-            experienciaTitulo.setSpacingAfter(5);
+                Paragraph experienciaTitulo =
+                        new Paragraph("EXPERIÊNCIAS", subtitulo);
 
-            document.add(experienciaTitulo);
+                experienciaTitulo.setSpacingAfter(5);
 
-            curriculo.getExperiencias().forEach(experiencia -> {
+                document.add(experienciaTitulo);
 
-                try {
+                curriculo.getExperiencias().forEach(experiencia -> {
 
-                    document.add(new Paragraph(
-                            experiencia.getCargo()
-                                    + " - "
-                                    + experiencia.getEmpresa(),
-                            texto
-                    ));
+                    try {
 
-                    document.add(new Paragraph(
-                            experiencia.getInicio()
-                                    + " - "
-                                    + experiencia.getFim(),
-                            texto
-                    ));
+                        document.add(new Paragraph(
+                                experiencia.getCargo()
+                                        + " - "
+                                        + experiencia.getEmpresa(),
+                                texto
+                        ));
 
-                    document.add(new Paragraph(
-                            experiencia.getDescricao(),
-                            texto
-                    ));
+                        document.add(new Paragraph(
+                                experiencia.getInicio()
+                                        + " - "
+                                        + experiencia.getFim(),
+                                texto
+                        ));
 
-                    document.add(new Paragraph(" "));
+                        document.add(new Paragraph(
+                                experiencia.getDescricao(),
+                                texto
+                        ));
 
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            });
+                        document.add(new Paragraph(" "));
+
+                    } catch (Exception e) {
+
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
 
             document.close();
 

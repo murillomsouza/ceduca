@@ -113,7 +113,6 @@ curriculo
 ```txt
 resumo
 linkedin
-github
 formacoes
 qualificacoes
 experiencias
@@ -354,7 +353,6 @@ GET /secretarias/alunos/{id}/curriculo/download
 {
   "resumo": "Desenvolvedor Java em formação",
   "linkedin": "linkedin.com/in/murillo",
-  "github": "github.com/murillo",
   "formacoes": [
     {
       "instituicao": "FATEC",
