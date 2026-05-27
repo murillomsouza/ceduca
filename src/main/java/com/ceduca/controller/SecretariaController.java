@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 
 import com.ceduca.dto.AlunoRequestDTO;
 import com.ceduca.dto.AlunoResponseDTO;
+import com.ceduca.dto.SecretariaPatchDTO;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +60,15 @@ public class SecretariaController {
                                 secretariaService.editarSecretaria(id, dto));
         }
 
+        @PatchMapping("/{id}")
+        public ResponseEntity<SecretariaResponseDTO> editarParcialSecretaria(
+                        @PathVariable String id,
+                        @RequestBody SecretariaPatchDTO dto) {
+
+                return ResponseEntity.ok(
+                                secretariaService.editarParcialSecretaria(id, dto));
+        }
+
         @DeleteMapping("/{id}")
         public ResponseEntity<Void> deletarSecretaria(
                         @PathVariable String id) {
@@ -100,6 +110,15 @@ public class SecretariaController {
                                 secretariaService.editarAluno(id, alunoDTO));
         }
 
+        @PatchMapping("/alunos/{id}")
+        public ResponseEntity<AlunoResponseDTO> editarParcialAluno(
+                        @PathVariable String id,
+                        @RequestBody AlunoRequestDTO alunoDTO) {
+
+                return ResponseEntity.ok(
+                                secretariaService.editarParcialAluno(id, alunoDTO));
+        }
+
         @GetMapping("/alunos/tags")
         public ResponseEntity<List<AlunoResponseDTO>> buscarPorTag(
                         @RequestParam String tag) {
@@ -116,18 +135,44 @@ public class SecretariaController {
                                 secretariaService.visualizarCurriculo(alunoId));
         }
 
+        @PostMapping("/alunos/{alunoId}/curriculo")
+        public ResponseEntity<Curriculo> criarCurriculo(
+                        @PathVariable String alunoId,
+                        @RequestBody Curriculo curriculo) {
+
+                return ResponseEntity.ok(
+                                secretariaService.criarCurriculo(alunoId, curriculo));
+        }
+
+        @PutMapping("/alunos/{alunoId}/curriculo")
+        public ResponseEntity<Curriculo> editarCurriculo(
+                        @PathVariable String alunoId,
+                        @RequestBody Curriculo curriculo) {
+
+                return ResponseEntity.ok(
+                                secretariaService.editarCurriculo(alunoId, curriculo));
+        }
+
+        @PatchMapping("/alunos/{alunoId}/curriculo")
+        public ResponseEntity<Curriculo> editarParcialCurriculo(
+                        @PathVariable String alunoId,
+                        @RequestBody Curriculo curriculo) {
+
+                return ResponseEntity.ok(
+                                secretariaService.editarParcialCurriculo(alunoId, curriculo));
+        }
+
         @GetMapping("/alunos/{alunoId}/curriculo/download")
         public ResponseEntity<byte[]> baixarCurriculo(
-                @PathVariable String alunoId) {
+                        @PathVariable String alunoId) {
 
                 byte[] pdf = secretariaService.baixarCurriculo(alunoId);
 
                 return ResponseEntity.ok()
-                        .header(
-                                HttpHeaders.CONTENT_DISPOSITION,
-                                "attachment; filename=curriculo-" + alunoId + ".pdf"
-                        )
-                        .contentType(MediaType.APPLICATION_PDF)
-                        .body(pdf);
+                                .header(
+                                                HttpHeaders.CONTENT_DISPOSITION,
+                                                "attachment; filename=curriculo-" + alunoId + ".pdf")
+                                .contentType(MediaType.APPLICATION_PDF)
+                                .body(pdf);
         }
 }

@@ -42,6 +42,9 @@ src/main/java/com/ceduca
 - Cadastro de alunos
 - Busca de alunos por tags
 - Cadastro de currículo
+- Atualização parcial de secretaria com PATCH
+- Atualização parcial de aluno com PATCH
+- Atualização parcial de currículo com PATCH
 - Geração dinâmica de currículo em PDF
 - Download de currículo em PDF
 - Integração com MongoDB
@@ -56,6 +59,7 @@ src/main/java/com/ceduca
 - Buscar todos os usuarios secretaria
 - Buscar usuarios secretaria por ID
 - Editar usuarios secretaria
+- Editar parcialmente usuarios secretaria
 - Deletar usuarios secretaria
 
 ### Gerenciamento de Alunos
@@ -64,12 +68,16 @@ src/main/java/com/ceduca
 - Buscar todos os alunos
 - Buscar aluno por ID
 - Editar aluno
+- Editar parcialmente aluno
 - Buscar alunos por tags
 
 ### Currículos
 
+- Criar currículo para aluno
 - Visualizar currículo
-- Baixar currículo (estrutura preparada)  
+- Editar currículo
+- Editar parcialmente currículo
+- Baixar currículo em PDF 
 
 ---
 
@@ -261,7 +269,13 @@ PUT /secretarias/{id}
 ```
 
 ---
+## Editar parcialmente secretaria
 
+```http
+PATCH /secretarias/{id}
+```
+
+---
 ## Deletar secretaria
 
 ```http
@@ -300,6 +314,13 @@ PUT /secretarias/alunos/{id}
 
 ---
 
+## Editar parcialmente aluno
+
+```http
+PATCH /secretarias/alunos/{id}
+```
+---
+
 ## Buscar alunos por tag
 
 ```http
@@ -315,6 +336,28 @@ GET /secretarias/alunos/{id}/curriculo
 ```
 
 ---
+
+## Criar currículo
+
+```http
+POST /secretarias/alunos/{id}/curriculo
+```
+
+---
+
+## Editar currículo
+
+```http
+PUT /secretarias/alunos/{id}/curriculo
+```
+
+---
+
+## Editar parcialmente currículo
+
+```http
+PATCH /secretarias/alunos/{id}/curriculo
+```
 
 # Aluno
 
