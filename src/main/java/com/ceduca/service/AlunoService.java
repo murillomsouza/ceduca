@@ -14,6 +14,9 @@ public interface AlunoService {
 
     AlunoResponseDTO editarParcialmente(
             String id,
-            AlunoPatchDTO dto
-    );
+            AlunoPatchDTO dto);
+
+    Curriculo atualizarParcialmenteCurriculo(
+            String alunoId,
+            Curriculo curriculo);
 }
