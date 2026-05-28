@@ -22,8 +22,7 @@ public class AlunoServiceImpl implements AlunoService {
             Curriculo curriculo) {
 
         Aluno aluno = alunoRepository.findById(alunoId)
-                .orElseThrow(() ->
-                        new RuntimeException("Aluno não encontrado."));
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado."));
 
         aluno.setCurriculo(curriculo);
 
@@ -38,8 +37,7 @@ public class AlunoServiceImpl implements AlunoService {
             Curriculo curriculoAtualizado) {
 
         Aluno aluno = alunoRepository.findById(alunoId)
-                .orElseThrow(() ->
-                        new RuntimeException("Aluno não encontrado."));
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado."));
 
         aluno.setCurriculo(curriculoAtualizado);
 
@@ -52,8 +50,7 @@ public class AlunoServiceImpl implements AlunoService {
     public Curriculo visualizarCurriculo(String alunoId) {
 
         Aluno aluno = alunoRepository.findById(alunoId)
-                .orElseThrow(() ->
-                        new RuntimeException("Aluno não encontrado."));
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado."));
 
         return aluno.getCurriculo();
     }
@@ -64,8 +61,7 @@ public class AlunoServiceImpl implements AlunoService {
             AlunoPatchDTO dto) {
 
         Aluno aluno = alunoRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Aluno não encontrado."));
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado."));
 
         if (dto.getNome() != null) {
             aluno.setNome(dto.getNome());
@@ -82,6 +78,68 @@ public class AlunoServiceImpl implements AlunoService {
         Aluno alunoAtualizado = alunoRepository.save(aluno);
 
         return toResponseDTO(alunoAtualizado);
+    }
+
+    @Override
+    public Curriculo atualizarParcialmenteCurriculo(
+            String alunoId,
+            Curriculo curriculoAtualizado) {
+
+        Aluno aluno = alunoRepository.findById(alunoId)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado."));
+
+        Curriculo curriculo = aluno.getCurriculo();
+
+        if (curriculo == null) {
+            throw new RuntimeException("Currículo não encontrado.");
+        }
+
+        if (curriculoAtualizado.getNomeSocial() != null) {
+            curriculo.setNomeSocial(curriculoAtualizado.getNomeSocial());
+        }
+
+        if (curriculoAtualizado.getDataNascimento() != null) {
+            curriculo.setDataNascimento(curriculoAtualizado.getDataNascimento());
+        }
+
+        if (curriculoAtualizado.getLinkedin() != null) {
+            curriculo.setLinkedin(curriculoAtualizado.getLinkedin());
+        }
+
+        if (curriculoAtualizado.getEndereco() != null) {
+            curriculo.setEndereco(curriculoAtualizado.getEndereco());
+        }
+
+        if (curriculoAtualizado.getCidade() != null) {
+            curriculo.setCidade(curriculoAtualizado.getCidade());
+        }
+
+        if (curriculoAtualizado.getResumo() != null) {
+            curriculo.setResumo(curriculoAtualizado.getResumo());
+        }
+
+        if (curriculoAtualizado.getPossuiExperiencia() != null) {
+            curriculo.setPossuiExperiencia(
+                    curriculoAtualizado.getPossuiExperiencia());
+        }
+
+        if (curriculoAtualizado.getFormacoes() != null) {
+            curriculo.setFormacoes(curriculoAtualizado.getFormacoes());
+        }
+
+        if (curriculoAtualizado.getQualificacoes() != null) {
+            curriculo.setQualificacoes(
+                    curriculoAtualizado.getQualificacoes());
+        }
+
+        if (curriculoAtualizado.getExperiencias() != null) {
+            curriculo.setExperiencias(
+                    curriculoAtualizado.getExperiencias());
+        }
+
+        alunoRepository.save(aluno);
+
+        return curriculo;
     }
 
     private AlunoResponseDTO toResponseDTO(Aluno aluno) {

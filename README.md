@@ -83,8 +83,10 @@ src/main/java/com/ceduca
 
 ## Aluno
 
+- Atualizar parcialmente seu perfil
 - Adicionar currículo
 - Atualizar currículo
+- Atualizar parcialmente currículo
 - Visualizar currículo
 
 ---
@@ -353,7 +355,7 @@ PUT /secretarias/alunos/{id}/curriculo
 
 ---
 
-## Editar parcialmente currículo
+## Editar parcialmente currículo 
 
 ```http
 PATCH /secretarias/alunos/{id}/curriculo
@@ -362,6 +364,14 @@ PATCH /secretarias/alunos/{id}/curriculo
 # Aluno
 
 ## Salvar currículo
+
+## Editar parcialmente aluno
+
+```http
+PATCH /aluno/{id}
+```
+
+---
 
 ```http
 POST /aluno/{id}/curriculo
@@ -373,6 +383,14 @@ POST /aluno/{id}/curriculo
 
 ```http
 PUT /aluno/{id}/curriculo
+```
+
+--- 
+
+## Atualizar parcialmente currículo
+
+```http
+PATCH /aluno/{id}/curriculo
 ```
 
 ---
