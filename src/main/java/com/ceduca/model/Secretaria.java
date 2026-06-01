@@ -19,5 +19,6 @@ public class Secretaria {
 
     private String senha;
     private String nome;
+    private String tipoUsuario;
 
 }

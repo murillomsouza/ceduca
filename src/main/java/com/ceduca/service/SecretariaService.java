@@ -2,22 +2,61 @@ package com.ceduca.service;
 
 import java.util.List;
 
-import com.ceduca.model.Aluno;
+import com.ceduca.dto.AlunoRequestDTO;
+import com.ceduca.dto.AlunoResponseDTO;
+import com.ceduca.dto.SecretariaPatchDTO;
+import com.ceduca.dto.SecretariaRequestDTO;
+import com.ceduca.dto.SecretariaResponseDTO;
 import com.ceduca.model.Curriculo;
 
 public interface SecretariaService {
 
-    Aluno criarAluno(Aluno aluno);
+        SecretariaResponseDTO criarSecretaria(
+                        SecretariaRequestDTO dto);
 
-    List<Aluno> buscarAlunos();
+        List<SecretariaResponseDTO> buscarSecretarias();
 
-    Aluno buscarAlunoId(String id);
+        SecretariaResponseDTO buscarSecretariaId(String id);
 
-    Aluno editarAluno(String id, Aluno alunoAtualizado);
+        SecretariaResponseDTO editarSecretaria(
+                        String id,
+                        SecretariaRequestDTO dto);
 
-    List<Aluno> buscarAlunosPorTag(String tag);
+        void deletarSecretaria(String id);
 
-    Curriculo visualizarCurriculo(String alunoId);
+        AlunoResponseDTO criarAluno(AlunoRequestDTO alunoDTO);
 
-    byte[] baixarCurriculo(String alunoId);
+        List<AlunoResponseDTO> buscarAlunos();
+
+        AlunoResponseDTO buscarAlunoId(String id);
+
+        AlunoResponseDTO editarAluno(
+                        String id,
+                        AlunoRequestDTO alunoDTO);
+
+        List<AlunoResponseDTO> buscarAlunosPorTag(String tag);
+
+        Curriculo visualizarCurriculo(String alunoId);
+
+        byte[] baixarCurriculo(String alunoId);
+
+        SecretariaResponseDTO editarParcialSecretaria(
+                        String id,
+                        SecretariaPatchDTO dto);
+
+        AlunoResponseDTO editarParcialAluno(
+                        String id,
+                        AlunoRequestDTO alunoDTO);
+
+        Curriculo editarCurriculo(
+                        String alunoId,
+                        Curriculo curriculo);
+
+        Curriculo editarParcialCurriculo(
+                        String alunoId,
+                        Curriculo curriculo);
+
+        Curriculo criarCurriculo(
+                        String alunoId,
+                        Curriculo curriculo);
 }

@@ -1,6 +1,6 @@
 # C'Educa
 
-Sistema backend desenvolvido com Java + Spring Boot + MongoDB para gerenciamento de alunos e currículos acadêmicos.
+Sistema backend REST desenvolvido com Java, Spring Boot e MongoDB para gerenciamento acadêmico de alunos e currículos.
 
 O projeto permite que a secretaria cadastre alunos e que os próprios alunos preencham seus currículos através de formulários, armazenando todas as informações de forma estruturada no MongoDB.
 
@@ -15,6 +15,8 @@ O projeto permite que a secretaria cadastre alunos e que os próprios alunos pre
 - Lombok
 - Maven
 - MongoDB
+- OpenPDF
+- Jakarta Validation
 
 ---
 
@@ -28,29 +30,63 @@ src/main/java/com/ceduca
 ├── model
 ├── repository
 ├── service
+│   └── pdf
 └── CeducaApplication
 ```
 
 ---
 
-# Funcionalidades
+## Funcionalidades
+
+- Cadastro de secretarias
+- Cadastro de alunos
+- Busca de alunos por tags
+- Cadastro de currículo
+- Atualização parcial de secretaria com PATCH
+- Atualização parcial de aluno com PATCH
+- Atualização parcial de currículo com PATCH
+- Geração dinâmica de currículo em PDF
+- Download de currículo em PDF
+- Integração com MongoDB
+- API REST com Spring Boot
+- Geração dinâmica de PDF em tempo real
 
 ## Secretaria
+
+### Gerenciamento de Secretaria
+
+- Criar usuario secretaria
+- Buscar todos os usuarios secretaria
+- Buscar usuarios secretaria por ID
+- Editar usuarios secretaria
+- Editar parcialmente usuarios secretaria
+- Deletar usuarios secretaria
+
+### Gerenciamento de Alunos
 
 - Criar aluno
 - Buscar todos os alunos
 - Buscar aluno por ID
 - Editar aluno
+- Editar parcialmente aluno
 - Buscar alunos por tags
+
+### Currículos
+
+- Criar currículo para aluno
 - Visualizar currículo
-- Baixar currículo (estrutura preparada)
+- Editar currículo
+- Editar parcialmente currículo
+- Baixar currículo em PDF 
 
 ---
 
 ## Aluno
 
+- Atualizar parcialmente seu perfil
 - Adicionar currículo
 - Atualizar currículo
+- Atualizar parcialmente currículo
 - Visualizar currículo
 
 ---
@@ -64,6 +100,7 @@ id
 nome
 email
 senha
+tipoUsuario
 ```
 
 ---
@@ -86,7 +123,6 @@ curriculo
 ```txt
 resumo
 linkedin
-github
 formacoes
 qualificacoes
 experiencias
@@ -113,14 +149,65 @@ spring.data.mongodb.uri=mongodb://localhost:27017/ceduca
 spring.data.mongodb.auto-index-creation=true
 ```
 
----
+--- 
+# Dependências Principais
+
+O projeto utiliza as seguintes dependências Spring Boot:
+
+```xml
+<!-- Spring Web -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+<!-- MongoDB -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-mongodb</artifactId>
+</dependency>
+
+<!-- Validações -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+
+<!-- Lombok -->
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <optional>true</optional>
+</dependency>
+
+<!-- DevTools -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+    <scope>runtime</scope>
+    <optional>true</optional>
+</dependency>
+
+<!-- Testes -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+</dependency>
+<!-- OpenPDF -->
+<dependency>
+    <groupId>com.github.librepdf</groupId>
+    <artifactId>openpdf</artifactId>
+    <version>1.3.39</version>
+</dependency>
+``` 
 
 # Como Executar
 
 ## Clonar repositório
 
 ```bash
-git clone https://github.com/SEU-USUARIO/ceduca.git
+git clone https://github.com/murillomsouza/ceduca.git
 ```
 
 ---
@@ -153,10 +240,54 @@ mvnw spring-boot:run
 
 # Secretaria
 
+## Criar secretaria
+
+```http
+POST /secretarias
+```
+
+---
+
+## Buscar secretarias
+
+```http
+GET /secretarias
+```
+
+---
+
+## Buscar secretaria por ID
+
+```http
+GET /secretarias/{id}
+```
+
+---
+
+## Editar secretaria
+
+```http
+PUT /secretarias/{id}
+```
+
+---
+## Editar parcialmente secretaria
+
+```http
+PATCH /secretarias/{id}
+```
+
+---
+## Deletar secretaria
+
+```http
+DELETE /secretarias/{id}
+```
+
 ## Criar aluno
 
 ```http
-POST /secretaria/alunos
+POST /secretarias/alunos
 ```
 
 ---
@@ -164,7 +295,7 @@ POST /secretaria/alunos
 ## Buscar alunos
 
 ```http
-GET /secretaria/alunos
+GET /secretarias/alunos
 ```
 
 ---
@@ -172,7 +303,7 @@ GET /secretaria/alunos
 ## Buscar aluno por ID
 
 ```http
-GET /secretaria/alunos/{id}
+GET /secretarias/alunos/{id}
 ```
 
 ---
@@ -180,15 +311,22 @@ GET /secretaria/alunos/{id}
 ## Editar aluno
 
 ```http
-PUT /secretaria/alunos/{id}
+PUT /secretarias/alunos/{id}
 ```
 
+---
+
+## Editar parcialmente aluno
+
+```http
+PATCH /secretarias/alunos/{id}
+```
 ---
 
 ## Buscar alunos por tag
 
 ```http
-GET /secretaria/alunos/tags?tag=Java
+GET /secretarias/alunos/tags?tag=Java
 ```
 
 ---
@@ -196,14 +334,44 @@ GET /secretaria/alunos/tags?tag=Java
 ## Visualizar currículo
 
 ```http
-GET /secretaria/alunos/{id}/curriculo
+GET /secretarias/alunos/{id}/curriculo
 ```
 
 ---
 
+## Criar currículo
+
+```http
+POST /secretarias/alunos/{id}/curriculo
+```
+
+---
+
+## Editar currículo
+
+```http
+PUT /secretarias/alunos/{id}/curriculo
+```
+
+---
+
+## Editar parcialmente currículo 
+
+```http
+PATCH /secretarias/alunos/{id}/curriculo
+```
+
 # Aluno
 
 ## Salvar currículo
+
+## Editar parcialmente aluno
+
+```http
+PATCH /aluno/{id}
+```
+
+---
 
 ```http
 POST /aluno/{id}/curriculo
@@ -217,12 +385,25 @@ POST /aluno/{id}/curriculo
 PUT /aluno/{id}/curriculo
 ```
 
+--- 
+
+## Atualizar parcialmente currículo
+
+```http
+PATCH /aluno/{id}/curriculo
+```
+
 ---
 
 ## Visualizar currículo
 
 ```http
 GET /aluno/{id}/curriculo
+```
+## Baixar currículo PDF
+
+```http
+GET /secretarias/alunos/{id}/curriculo/download
 ```
 
 ---
@@ -233,7 +414,6 @@ GET /aluno/{id}/curriculo
 {
   "resumo": "Desenvolvedor Java em formação",
   "linkedin": "linkedin.com/in/murillo",
-  "github": "github.com/murillo",
   "formacoes": [
     {
       "instituicao": "FATEC",
@@ -268,7 +448,7 @@ GET /aluno/{id}/curriculo
 
 - JWT Authentication
 - Spring Security
-- Geração de PDF
+- Melhorar layout do PDF
 - Upload de foto
 - Upload de currículo PDF
 - Frontend Web
