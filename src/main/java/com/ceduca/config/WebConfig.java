@@ -17,8 +17,9 @@ public class WebConfig {
             public void addCorsMappings(@NonNull CorsRegistry registry) {
 
                 registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("*");
+                        .allowedOrigins("http://localhost:5173")
+                        .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
+                        .allowedHeaders("*");
             }
         };
     }
