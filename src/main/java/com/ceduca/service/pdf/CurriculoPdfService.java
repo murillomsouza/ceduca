@@ -38,19 +38,19 @@ public class CurriculoPdfService {
 
             Font titulo =
                     FontFactory.getFont(
-                            FontFactory.HELVETICA_BOLD,
+                            FontFactory.TIMES_BOLD,
                             20
                     );
 
             Font subtitulo =
                     FontFactory.getFont(
-                            FontFactory.HELVETICA_BOLD,
+                            FontFactory.TIMES_BOLD,
                             14
                     );
 
             Font texto =
                     FontFactory.getFont(
-                            FontFactory.HELVETICA,
+                            FontFactory.TIMES_ROMAN,
                             12
                     );
 
@@ -138,6 +138,8 @@ public class CurriculoPdfService {
                         curriculo.getLinkedin(),
                         texto
                 ));
+
+                document.add(new Paragraph(" "));
             }
 
             /*
