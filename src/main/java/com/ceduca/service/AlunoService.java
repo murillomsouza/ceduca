@@ -19,4 +19,7 @@ public interface AlunoService {
     Curriculo atualizarParcialmenteCurriculo(
             String alunoId,
             Curriculo curriculo);
+
+        void excluirCurriculo(String alunoId);
+        
 }

@@ -2,9 +2,9 @@ package com.ceduca.service;
 
 import java.util.List;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ceduca.service.pdf.CurriculoPdfService;
 import com.ceduca.dto.AlunoRequestDTO;
 import com.ceduca.dto.AlunoResponseDTO;
 import com.ceduca.dto.SecretariaPatchDTO;
@@ -15,6 +15,7 @@ import com.ceduca.model.Curriculo;
 import com.ceduca.model.Secretaria;
 import com.ceduca.repository.AlunoRepository;
 import com.ceduca.repository.SecretariaRepository;
+import com.ceduca.service.pdf.CurriculoPdfService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +26,7 @@ public class SecretariaServiceImpl implements SecretariaService {
     private final CurriculoPdfService curriculoPdfService;
     private final AlunoRepository alunoRepository;
     private final SecretariaRepository secretariaRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public SecretariaResponseDTO criarSecretaria(
@@ -131,6 +133,7 @@ public class SecretariaServiceImpl implements SecretariaService {
 
         aluno.setNome(alunoDTO.getNome());
         aluno.setEmail(alunoDTO.getEmail());
+        aluno.setSenha(passwordEncoder.encode(alunoDTO.getSenha()));
         aluno.setTelefone(alunoDTO.getTelefone());
         aluno.setTags(alunoDTO.getTags());
 
