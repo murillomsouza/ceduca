@@ -20,6 +20,8 @@ public class Aluno {
     @Indexed(unique = true)
     private String email;
 
+    private String senha;
+
     private String telefone;
 
     private List<String> tags;

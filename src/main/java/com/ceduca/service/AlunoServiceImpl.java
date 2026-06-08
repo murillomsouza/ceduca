@@ -154,4 +154,19 @@ public class AlunoServiceImpl implements AlunoService {
 
         return dto;
     }
+
+    @Override
+    public void excluirCurriculo(String alunoId) {
+
+        Aluno aluno = alunoRepository.findById(alunoId)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado."));
+
+        if (aluno.getCurriculo() == null) {
+            throw new RuntimeException("Currículo não encontrado.");
+        }
+
+        aluno.setCurriculo(null);
+
+        alunoRepository.save(aluno);
+    }
 }

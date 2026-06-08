@@ -194,11 +194,18 @@ O projeto utiliza as seguintes dependências Spring Boot:
     <artifactId>spring-boot-starter-test</artifactId>
     <scope>test</scope>
 </dependency>
+
 <!-- OpenPDF -->
 <dependency>
     <groupId>com.github.librepdf</groupId>
     <artifactId>openpdf</artifactId>
     <version>1.3.39</version>
+</dependency>
+
+<!-- Security -->
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-crypto</artifactId>
 </dependency>
 ``` 
 
